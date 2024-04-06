@@ -27,6 +27,7 @@ export function Home() {
                 showMeal ? 
                     <MealDetails
                         meal={meal}
+                        setMeal={setMeal}
                         setShowMeal={setShowMeal}
                     /> 
                 : 

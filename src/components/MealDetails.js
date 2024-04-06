@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import MealDB from "../api/MealDB";
 
 function IngredientsList({ ingredients }) {
     return (
@@ -12,9 +13,24 @@ function IngredientsList({ ingredients }) {
     )
 }
 
-export function MealDetails({ meal, setShowMeal }) {
+export function MealDetails({ meal, setMeal, setShowMeal }) {
     const [ingredients, setIngredients] = useState([])
     const ytEmbedUrl = meal.strYoutube.replace("watch", "embed").replace("?v=", "/")
+
+    const getMeal = () => {
+        MealDB().fetchRandomMeal().then((data) => {
+            const meals = data.data.meals
+    
+            if (meals.length > 0) {
+                setMeal(meals[0])
+                setShowMeal(true)
+            }
+        })
+        .catch((err) => {
+            console.error("Couldn't fetch meal data!")
+            console.error(err)
+        })
+    }
 
     useEffect(() => {
         var iIngKeys = []
@@ -65,9 +81,16 @@ export function MealDetails({ meal, setShowMeal }) {
                             <span className="text-4xl font-bold">Meal: {meal.strMeal}</span>
                         </div>
 
-                        <div>
+                        <div className="flex">
                             <button 
                                 className="btn btn-accent"
+                                onClick={getMeal}
+                            > 
+                                Swaad Nhi Aya 😢
+                            </button>
+
+                            <button 
+                                className="btn btn-accent ml-5"
                                 onClick={() => {setShowMeal(false)}}
                             > 
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
